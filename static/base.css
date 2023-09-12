@@ -60,11 +60,14 @@ body {
 #chart {
     height: 60vh;
     /* Media query for iPhones or devices with smaller screen heights */
-
+    @media screen and (max-height: 700px) {
+        height: 60vh;
+        padding-bottom:2rem;
+    }
 }
 
 #chart-parent-card {
-    min-height: 80vh;
+    /* min-height: 80vh; */
     /* Media query for iPhones or devices with smaller screen heights */
     /* @media screen and (max-height: 700px) {
         height: 60vh;

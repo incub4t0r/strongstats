@@ -97,7 +97,7 @@
                     </ul>
                 </div>
                 {#if exerciseData[selectedExercise]}
-                    <div id="chart">
+                    <div id="chart" class="mb-5">
                         <ExerciseChart
                             exerciseData={exerciseData[selectedExercise]}
                             exerciseName={selectedExercise}

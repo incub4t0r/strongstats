@@ -68,7 +68,6 @@
     {#if Object.keys(exerciseData).length > 0}
         <div class="card" id="chart-parent-card">
             <div class="card-body">
-                <!-- Dropdown menu to select exercise -->
                 <div class="dropdown">
                     <button
                         class="btn btn-secondary dropdown-toggle"
@@ -97,12 +96,6 @@
                         {/each}
                     </ul>
                 </div>
-                <!-- <select bind:value={selectedExercise}>
-                    {#each Object.keys(exerciseData).sort() as exerciseName}
-                        <option value={exerciseName}>{exerciseName}</option>
-                    {/each}
-                </select> -->
-
                 {#if exerciseData[selectedExercise]}
                     <div id="chart">
                         <ExerciseChart

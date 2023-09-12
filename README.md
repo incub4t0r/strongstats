@@ -1,38 +1,13 @@
-# create-svelte
+# StrongStats
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Strong is a fitness application available on iOS and Android. On Strong, you can template workouts with various exercises, track weights, reps, sets, and more.
 
-## Creating a project
+## Demo site
 
-If you're seeing this, you've probably already done this step. Congrats!
+https://strongstats.netlify.app
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Background
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Personally, I enjoy using Strong very much as it allows me to focus on lifts and not worry about how much rest I need to take or writing everything down.
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+*However*, one thing that is locked behind a paywall is progression statistics. Thankfully, Strong lets you export your user data as a CSV file. StrongStats lets you take that CSV, upload it, and view your progression statistics. 

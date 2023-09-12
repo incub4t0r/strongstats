@@ -60,7 +60,6 @@
                     },
                 },
                 maintainAspectRatio: false,
-                // responsive: false,
             },
         });
     }
@@ -101,10 +100,6 @@
     });
 </script>
 
-<div class="table-responsive">
-    <canvas
-        style="min-height: fill-available;"
-        id={`chart-${exerciseName}`}
-        class="table"
-    />
-</div>
+<canvas
+    id={`chart-${exerciseName}`}
+/>

@@ -1,6 +1,8 @@
 <script>
     import Chart from "chart.js/auto";
     import { onMount, onDestroy, afterUpdate } from "svelte";
+    import 'chartjs-adapter-moment'; // Import the Moment.js adapter for Chart.js
+    import moment from "moment"; // Import the Moment.js library
 
     let chart;
     let parsedData = [];
@@ -26,6 +28,34 @@
         );
     }
 
+    function bestFitLineFunction(x) {
+        // Calculate the best-fit line (linear regression)
+        const n = parsedData.length;
+        let sumX = 0;
+        let sumY = 0;
+        let sumXY = 0;
+        let sumX2 = 0;
+
+        for (let i = 0; i < n; i++) {
+            const dataPoint = parsedData[i];
+            const dataX = dataPoint.x;
+            const dataY = dataPoint.y;
+
+            sumX += dataX;
+            sumY += dataY;
+            sumXY += dataX * dataY;
+            sumX2 += dataX * dataX;
+        }
+
+        const meanX = sumX / n;
+        const meanY = sumY / n;
+
+        const slope = (sumXY - n * meanX * meanY) / (sumX2 - n * meanX * meanX);
+        const intercept = meanY - slope * meanX;
+
+        return slope * x + intercept;
+    }
+
     function createChart() {
         const ctx = document
             .getElementById(`chart-${exerciseName}`)
@@ -44,12 +74,37 @@
                             scaleRadius(dataPoint.r)
                         ),
                     },
+                    {
+                        label: "Best Fit Line",
+                        data: parsedData.map((dataPoint) => ({
+                            x: dataPoint.x,
+                            y: bestFitLineFunction(dataPoint.x),
+                        })),
+                        borderColor: "rgba(255, 0, 0, 0.7)",
+                        fill: false,
+                    },
+                    {
+                        label: "Best Fit Line (Connect)",
+                        data: parsedData.map((dataPoint) => ({
+                            x: dataPoint.x,
+                            y: bestFitLineFunction(dataPoint.x),
+                        })),
+                        type: "line",
+                        borderColor: "rgba(255, 0, 0, 0.7)", // Adjust the line color
+                        fill: false,
+                        borderWidth: 1, // Adjust line width
+                        pointHoverRadius: 0, // Turn off hover interactions
+                        pointHitRadius: 0,   // Turn off tooltips
+                    },
                 ],
             },
             options: {
                 scales: {
                     x: {
-                        type: "category",
+                        type: "time",
+                        time: {
+                            unit: "day",
+                        },
                         position: "bottom",
                     },
                     y: {
@@ -60,6 +115,25 @@
                     },
                 },
                 maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        enabled: true,
+                        filter: function (tooltipItem) {
+                            return tooltipItem.datasetIndex === 0; // Only show tooltips for the first dataset
+                        }
+                    },
+                    hover: {
+                        mode: 'index',
+                        intersect: false,
+                        onHover: function(event, chartElement) {
+                            if (chartElement[0]) {
+                                const index = chartElement[0].datasetIndex;
+                                return index === 0; // Only allow hover for the first dataset
+                            }
+                            return false;
+                        }
+                    }
+                }
             },
         });
     }
@@ -70,7 +144,7 @@
         }
 
         parsedData = exerciseData.map((item) => ({
-            x: item.Date,
+            x: moment(item.Date), // Convert Date to a Moment.js object
             y: item.Weight,
             r: item.Reps,
         }));
